@@ -19,6 +19,8 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="bootstrap.css" />
+
     <title>Work Day Scheduler</title>
   </head>
 
@@ -28,15 +30,15 @@
       <p class="lead">A simple calendar app for scheduling your work day</p>
       <p id="currentDay" class="lead"></p>
     </header>
-    <div class="container">
+    <table class="table jumbotron time-block">
    
       <!-- Timeblocks go here -->
       <tbody id="todo-form">
-        <tr id="todo-list"></tr>
-      </tbody>   
-    </div>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+      </tbody>   
+    </table>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="timeBlocks.js"></script>
 

@@ -1,69 +1,175 @@
-$(document).ready(function(){
+
 
 var date = new Date();
-var hour = date.getHours();
-console.log(hour);
+var nhour = date.getHours()
+var dd = date.getDate(); //yields day
+var MM = date.getMonth(); //yields month
+var yyyy = date.getFullYear(); //yields year
+var currentDate = (MM + 1) + " / " + dd + " / " + yyyy;
 
-var dayStarts = hour
+document.querySelector("#currentDay").innerHTML = currentDate;
+var todoform = document.querySelector("#todo-form")
+
 var todoList = document.querySelector("#todo-list");
 
-var todos = ["9,10,11,12,1,2,3,4,5"];
+var todos = [
+  {
+    hour: 9,
+    todoText: "1"
+  },
+  {
+    hour: 10,
+    todoText: ""
+  },
+  {
+    hour: 11,
+    todoText: ""
+  },
+  {
+    hour: 12,
+    todoText: ""
+  },
+  {
+    hour: 13,
+    todoText: ""
+  },
+  {
+    hour: 14,
+    todoText: ""
+  },
+  {
+    hour: 15,
+    todoText: ""
+  },
+  {
+    hour: 16,
+    todoText: ""
+  },
+  {
+    hour: 17,
+    todoText: ""
+  },
+]
 
-init();
+
+
+init()
 
 function renderTodos() {
+  
+  todoform.innerHTML = "";
+
+  for (var i = 0; i < todos.length; i++) {
+
+    var todoIndex = todos[i].hour;
 
 
+    var tr = document.createElement("tr");
+    tr.setAttribute("id", "todo-list" + todoIndex);
+    var n = tr.getAttribute("id");
+
+
+
+    var th = document.createElement("th");
+    th.setAttribute("id", "hourIndex");
+    th.setAttribute("data-index", i);
+    th.setAttribute("style", "font-size:30px");
+    th.setAttribute("value", todoIndex);
+    th.textContent = todoIndex + ":00";
+    var meIndex = th.getAttribute("data-index");
+
+
+    var td = document.createElement("td");
+
+    var textArea = document.createElement("textarea");
+    textArea.setAttribute("placeholder", "What needs to be done?");
+    textArea.setAttribute("id", "todo-input"+ i)
+    textArea.textContent = todos[i].todoText;
+    
+
+
+    var button = document.createElement("button");
+    button.setAttribute("class", "btn btn-primary btn-lg");
+    button.setAttribute("id", "saveBtn");
+    button.setAttribute("data-index", i);
+    console.log(meIndex);
+    button.setAttribute("onclick", "saveTodos()");
+    button.textContent = "Save";
+
+    var td2 = document.createElement("td");
+
+    document.querySelector("#todo-form").appendChild(tr);
+    tr.appendChild(th);
+    td.appendChild(textArea);
+    tr.appendChild(td);
+    td2.appendChild(button);
+    tr.appendChild(td2);
+
+    checkIfMatch(n, todoIndex);
+
+    
+
+    
+
+  }
 
 }
 
-function init() {
- 
+//check time
+function checkIfMatch(n, todoIndex) {
+
+  if (nhour === todoIndex) {
+
+    document.getElementById(n).setAttribute("Class", "present");
+
+  } else if (nhour < todoIndex) {
+    document.getElementById(n).setAttribute("Class", "future");
     
-    var storedTodos = JSON.parse(localStorage.getItem("todos"));
-  
-    if (storedTodos !== null) {
-      todos = storedTodos;
-    }
-  
-    renderTodos();
-   
+  } else {
+    document.getElementById(n).setAttribute("Class", "past");
+  }
+}
 
+function init() {
+  // Get stored todos from localStorage
+  // Parsing the JSON string to an object
+  var storedTodos = JSON.parse(localStorage.getItem("todos"));
+
+  // If todos were retrieved from localStorage, update the todos array to it
+  if (storedTodos !== null) {
+    todos = storedTodos;
   }
 
-  function storeTodos() {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }
-  
-
-// When form is submitted...
-todoTable.addEventListener("submit", function(event) {
-  event.preventDefault();
-
-  var todoInput = document.querySelector("#todo-input");
-  var todoText = todoInput.value.trim();
-
-  // Add new todoText to todos array
-  todos.push(todoText);
-
-
-  // Re-render the list
-  storeTodos();
+  // Render todos to the DOM
   renderTodos();
-});
+}
 
-// When a element inside of the todoList is clicked...
-todoList.addEventListener("click", function(event) {
+function storeTodos() {
+  // Stringify and set "todos" key in localStorage to todos array
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
+
+function saveTodos() {
   var element = event.target;
-
-  // If that element is a button...
+  
   if (element.matches("button") === true) {
-    // Get its data-index value and remove the todo element from the list
-    var index = element.parentElement.getAttribute("data-index");
-    todos.splice(index, 1);
+
+    var index = element.getAttribute("data-index");
+   
+    var i = "todo-input"+ index;
+    console.log(i);
+    var userInput= document.getElementById(i).value;
+
+    todos[index].todoText= userInput;
+    
+
+
+    
 
     storeTodos();
     renderTodos();
+    
   }
-});
-})
+};
+
+
