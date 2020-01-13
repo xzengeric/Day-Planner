@@ -1,13 +1,10 @@
 
 
-var date = new Date();
-var nhour = date.getHours()
-var dd = date.getDate(); //yields day
-var MM = date.getMonth(); //yields month
-var yyyy = date.getFullYear(); //yields year
-var currentDate = (MM + 1) + " / " + dd + " / " + yyyy;
+const date = moment()
+var nhour = date.format("HH")
 
-document.querySelector("#currentDay").innerHTML = currentDate;
+
+document.querySelector("#currentDay").innerHTML = moment().format('LLLL');
 var todoform = document.querySelector("#todo-form")
 
 var todoList = document.querySelector("#todo-list");
@@ -62,8 +59,8 @@ function renderTodos() {
   for (var i = 0; i < todos.length; i++) {
 
     var todoIndex = todos[i].hour;
-
-
+    
+    
     var tr = document.createElement("tr");
     tr.setAttribute("id", "todo-list" + todoIndex);
     var n = tr.getAttribute("id");
@@ -92,7 +89,7 @@ function renderTodos() {
     button.setAttribute("class", "btn btn-primary btn-lg");
     button.setAttribute("id", "saveBtn");
     button.setAttribute("data-index", i);
-    console.log(meIndex);
+    
     button.setAttribute("onclick", "saveTodos()");
     button.textContent = "Save";
 
@@ -106,17 +103,14 @@ function renderTodos() {
     tr.appendChild(td2);
 
     checkIfMatch(n, todoIndex);
-
-    
-
-    
-
   }
-
+  
 }
 
 //check time
 function checkIfMatch(n, todoIndex) {
+
+  nhour= parseInt(nhour);
 
   if (nhour === todoIndex) {
 
@@ -127,6 +121,7 @@ function checkIfMatch(n, todoIndex) {
     
   } else {
     document.getElementById(n).setAttribute("Class", "past");
+
   }
 }
 
@@ -157,7 +152,7 @@ function saveTodos() {
     var index = element.getAttribute("data-index");
    
     var i = "todo-input"+ index;
-    console.log(i);
+    
     var userInput= document.getElementById(i).value;
 
     todos[index].todoText= userInput;
