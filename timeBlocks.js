@@ -1,5 +1,4 @@
 
-
 const date = moment()
 var nhour = date.format("HH")
 
@@ -12,7 +11,7 @@ var todoList = document.querySelector("#todo-list");
 var todos = [
   {
     hour: 9,
-    todoText: "1"
+    todoText: ""
   },
   {
     hour: 10,
@@ -166,5 +165,4 @@ function saveTodos() {
     
   }
 };
-
 
